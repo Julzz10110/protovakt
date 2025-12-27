@@ -1,0 +1,64 @@
+[package]
+name = "protovakt"
+version = "0.1.0"
+edition = "2021"
+authors = ["Engineering Team"]
+description = "Protocol analysis and fuzzing system for modern network protocols"
+license = "MIT"
+
+[dependencies]
+# CLI
+clap = { version = "4.5", features = ["derive", "env"] }
+clap-num = "1.0"
+
+# Async runtime
+tokio = { version = "1.40", features = ["full"] }
+async-trait = "0.1"
+
+# Network (for future PCAP support)
+# pcap = "1.1"  # TODO: Enable when implementing PCAP support
+
+# Protocol parsing
+pnet = "0.35"
+tls-parser = "0.12"
+http = "1.1"
+bytes = "1.6"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Utilities
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.10", features = ["v4", "serde"] }
+hex = "0.4"
+base64 = "0.22"
+
+# Configuration
+config = "0.14"
+
+# REST API (for future stages)
+# axum = "0.7"
+# tower = "0.5"
+# tower-http = { version = "0.6", features = ["cors", "trace"] }
+
+# gRPC (for future stages)
+# tonic = "0.11"
+# prost = "0.13"
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.5"
+
+[[bin]]
+name = "protovakt"
+path = "src/main.rs"

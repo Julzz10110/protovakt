@@ -1,0 +1,40 @@
+version: '1.0'
+general:
+  log_level: info
+  output_dir: ./reports
+  temp_dir: /tmp/protovakt
+analysis:
+  enabled_protocols:
+  - quic
+  - http3
+  - grpc
+  compliance:
+    rfc_strict: true
+    security_checks: true
+  performance:
+    metrics:
+    - throughput
+    - latency
+    - jitter
+fuzzing:
+  targets: []
+  strategies:
+  - type: stateful
+    max_depth: 15
+    corpus: null
+  limits:
+    duration: 8h
+    memory_mb: 4096
+    requests_per_sec: 1000
+    cpu_cores: 4
+reporting:
+  formats:
+  - json
+  - html
+  notifications: null
+ci:
+  quality_gates:
+    security_critical: 0
+    security_high: 5
+    coverage_min: 0.85
+    performance_regression: 0.1
