@@ -88,6 +88,45 @@ impl SessionManager {
         let sessions = self.sessions.read().await;
         sessions.keys().cloned().collect()
     }
+
+    /// Find existing session by addresses (bidirectional matching)
+    pub async fn find_session(
+        &self,
+        addr1: SocketAddr,
+        addr2: SocketAddr,
+    ) -> Option<SessionId> {
+        let sessions = self.sessions.read().await;
+        for (id, session) in sessions.iter() {
+            let s = session.read().await;
+            // Match bidirectional: (local, remote) or (remote, local)
+            if (s.local_addr == addr1 && s.remote_addr == addr2) ||
+               (s.local_addr == addr2 && s.remote_addr == addr1) {
+                return Some(id.clone());
+            }
+        }
+        None
+    }
+
+    /// Get or create session
+    pub async fn get_or_create_session(
+        &self,
+        local_addr: SocketAddr,
+        remote_addr: SocketAddr,
+        protocol: String,
+    ) -> SessionId {
+        // Try to find existing session
+        if let Some(id) = self.find_session(local_addr, remote_addr).await {
+            // Update last_seen
+            if let Some(session) = self.get_session(&id).await {
+                let mut s = session.write().await;
+                s.last_seen = chrono::Utc::now();
+            }
+            return id;
+        }
+        
+        // Create new session
+        self.create_session(local_addr, remote_addr, protocol).await
+    }
 }
 
 impl Default for SessionManager {
@@ -95,3 +134,6 @@ impl Default for SessionManager {
         Self::new()
     }
 }
+
+
+

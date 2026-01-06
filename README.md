@@ -13,16 +13,18 @@ protovakt is a universal tool for ensuring security, correctness, and performanc
 - ✅ CLI interface with commands: `analyze`, `fuzz`, `ci`, `plugin`, `config`
 - ✅ Basic module architecture (core, analyzer, fuzzer)
 - ✅ Basic decoders for TCP, TLS, HTTP
-- ✅ Session management system
+- ✅ Session management system with bidirectional matching
 - ✅ State machine engine for protocols
 - ✅ Protocol dispatcher for packet routing
 - ✅ Configuration file (.protovakt.yml)
-- ✅ Basic fuzzing strategies (stateful, grammar-based, mutation-based)
+- ✅ PCAP file analysis with packet parsing
+- ✅ Live capture from network interfaces with BPF filters
+- ✅ Statistics collection and findings tracking
+- ✅ Report generation (JSON, HTML)
+- ✅ Basic fuzzing strategies (structure ready)
 
 ### In Development
 
-- ⏳ PCAP file analysis
-- ⏳ Live capture from network interfaces
 - ⏳ QUIC/HTTP3 support
 - ⏳ gRPC/gRPC-Web analysis
 - ⏳ Coverage-guided fuzzing

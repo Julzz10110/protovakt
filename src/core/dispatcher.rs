@@ -84,6 +84,17 @@ impl ProtocolDispatcher {
         
         Err(ProcessingError::UnknownProtocol)
     }
+
+    /// Detect protocol from packet data without processing
+    pub async fn detect_protocol(&self, data: &Bytes) -> Option<String> {
+        // Try each handler to detect protocol
+        for (name, handler) in &self.handlers {
+            if handler.can_handle(data).await {
+                return Some(name.clone());
+            }
+        }
+        None
+    }
 }
 
 impl Default for ProtocolDispatcher {
@@ -91,3 +102,6 @@ impl Default for ProtocolDispatcher {
         Self::new()
     }
 }
+
+
+
